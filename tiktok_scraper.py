@@ -187,38 +187,3 @@ class TikTokScraper:
                 'createdAt': f"2024-01-{random.randint(10, 30)}T00:00:00Z"
             })
         return videos
-
-class TikTokService:
-    def __init__(self):
-        self.scraper = TikTokScraper()
-    
-    def get_trending_videos(self, count=20):
-        """Get trending TikTok videos"""
-        return self.scraper.get_trending_videos(count)
-    
-    def get_videos_by_hashtag(self, hashtag, count=20):
-        """Get videos by hashtag"""
-        try:
-            # For now, filter trending videos by hashtag
-            videos = self.scraper.get_trending_videos(count * 3)
-            filtered = [
-                v for v in videos 
-                if any(hashtag.lower() in tag.lower() for tag in v.get('hashtags', []))
-            ]
-            return filtered[:count] if filtered else self.scraper._generate_fallback_videos(count, hashtag)
-        except Exception as e:
-            print(f"❌ Hashtag filter failed: {e}")
-            return self.scraper._generate_fallback_videos(count, hashtag)
-    
-    def get_user_videos(self, username, count=20):
-        """Get user videos"""
-        try:
-            # For now, modify trending videos to appear as user videos
-            videos = self.scraper.get_trending_videos(count)
-            for video in videos:
-                video['author']['username'] = username
-                video['author']['nickname'] = username.capitalize()
-            return videos
-        except Exception as e:
-            print(f"❌ User videos failed: {e}")
-            return self.scraper._generate_fallback_videos(count, username)
