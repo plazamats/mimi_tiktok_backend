@@ -5,4 +5,3 @@ requests==2.31.0
 python-dotenv==1.0.0
 gunicorn==21.2.0
 certifi==2023.11.17
-playwright==1.40.0  # For browser automation if needed
