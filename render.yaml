@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mimi-tiktok-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: MONGODB_URI
+        fromSecret: MONGODB_URI
+      - key: FLASK_ENV
+        value: production
